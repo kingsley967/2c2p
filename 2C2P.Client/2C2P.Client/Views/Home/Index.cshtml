@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    @*<form asp-contronller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
+        <input type="file" name="postedFile" accept=".csv, .xml" />
+        <hr />
+        <button type="submit">Upload</button>
+    </form>*@
+
+    <form method="post" enctype="multipart/form-data" id="testform" class="formcontainer">
+        <input type="file" name="file" id="fileUpload" class="filestyle" data-icon="false" data-buttonName="btn-danger" data-buttonText="Please choose a file" accept=".csv, .xml">
+        <hr />
+        <button type="button" class="k-button" onclick="UploadFile()" id="btnUplaodExcelFile"><i class="fa fa-upload" aria-hidden="true" style="margin-right: 5px;"></i>Upload</button>
+    </form>
+    
+</div>
+
+<script>
+    function UploadFile() {
+            var data = new FormData($("#testform")[0]);
+            var files = document.getElementById("fileUpload").files;
+
+            if (files.length == 0)
+                alert("Files cannot be empty");
+            else if (files.length > 1)
+                alert("Cannot upload more than 1 file");
+            else {
+                $.ajax({
+                    url: "@Url.Action("UploadFile", "Home")",
+                    type: "POST",
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    async: false,
+                    success: function (response) {
+                        if (response == "") {
+                            alert("Upload successfully");
+                            window.location.href = "/";
+                        }
+                        else {
+                            alert(response);
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+
+                    }
+                });
+            }
+        }
+</script>

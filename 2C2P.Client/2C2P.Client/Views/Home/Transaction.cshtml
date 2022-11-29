@@ -1,0 +1,100 @@
+﻿@using _2C2P.Client.Models;
+@model List<TransactionListResponse>
+
+@{
+    ViewData["Title"] = "Transaction";
+}
+<style>
+
+#transactions {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#transactions td, #transactions th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#transactions tr:nth-child(even){background-color: #f2f2f2;}
+
+#transactions tr:hover {background-color: #ddd;}
+
+#transactions th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+}
+
+.margin-top-filter {
+    margin-top: 5px;
+}
+</style>
+
+<h4>Transaction</h4>
+
+<form method="post" action="/Home/Transaction">
+    <div class="col-md-3 margin-top-filter">
+        <input type="date" id="startDate" name="startDate" value="@ViewBag.StartDate" class="form-control">
+    </div>
+    <div class="col-md-3 margin-top-filter">
+        <input type="date" id="endDate" name="endDate" value="@ViewBag.EndDate" class="form-control">
+    </div>
+    
+    <div class="col-md-3 margin-top-filter">
+        <input id="currency" name="currency" placeholder="Currency" value="@ViewBag.Currency" class="form-control" />
+    </div>
+    <div class="col-md-3 margin-top-filter">
+        <input id="status" name="status" placeholder="Status" value="@ViewBag.Status" class="form-control" />
+    </div>
+    
+    <button class="btn btn-info margin-top-filter" type="submit">Search</button>
+</form>
+
+@if (Model.Count > 0){
+    <table id="transactions" class="margin-top-filter">
+        <tr>
+            <th>ID</th>
+            <th>Payment</th>
+            <th>Status</th>
+        </tr>
+        @foreach (var item in Model){
+            <tr>
+                <td>
+                    @item.id
+                </td>
+                <td>
+                    @item.payment
+                </td>
+                <td>
+                    @item.status
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+
+<script>
+    //function filter() {
+    //    $.ajax({
+    //        url: "@Url.Action("Transaction", "Home")",
+    //        type: "POST",
+    //        data: {
+    //            currency: document.getElementById("currency").value,
+    //            startDate: "",
+    //            endDate: "",
+    //            status: "",
+    //        },
+    //        success: function (response) {
+    //            window.location.reload();
+    //        },
+    //        error: function (xhr, ajaxOptions, thrownError) {
+
+    //        }
+    //    });
+    //}
+</script>
